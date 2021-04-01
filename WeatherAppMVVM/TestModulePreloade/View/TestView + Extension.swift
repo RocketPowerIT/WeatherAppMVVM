@@ -12,7 +12,8 @@ extension TestView {
     func makeImageView() -> UIImageView {
         let imageView = UIImageView()
         addSubview(imageView)
-        imageView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 2).isActive = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier:1).isActive = true
         imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         return imageView
     }
@@ -25,6 +26,7 @@ extension TestView {
         addSubview(activityIndicator)
         activityIndicator.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 5).isActive = true
         activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        addSubview(activityIndicator)
         return activityIndicator
     }
     
@@ -40,9 +42,18 @@ extension TestView {
     func makeTemperatureLabel() -> UILabel {
         let descriptionLabel = makeLabel(size: 14)
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 3).isActive = true
+        descriptionLabel.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 10).isActive = true
         descriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         return descriptionLabel
+    }
+    
+    func makeDescriptionLabel() -> UILabel {
+        let titleLabel = makeLabel(size: 20)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.numberOfLines = 0
+        titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 5).isActive = true
+        titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        return titleLabel
     }
     
     func makeLabel(size: CGFloat) -> UILabel {

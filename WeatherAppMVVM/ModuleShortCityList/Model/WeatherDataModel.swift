@@ -64,8 +64,8 @@ struct WeatherDataModel: Codable {
          let tempMax: Double
          let pressure: Int
          let humidity: Int
-         let seaLevel: Int
-         let grndLevel: Int
+         let seaLevel: Int?
+         let grndLevel: Int?
          
          enum CodingKeys: String, CodingKey {
              case temp = "temp"
@@ -111,7 +111,7 @@ struct WeatherDataModel: Codable {
      struct Wind: Codable {
          let speed: Double
          let deg: Int
-         let gust: Double
+         let gust: Double?
          
          enum CodingKeys: String, CodingKey {
              case speed = "speed"

@@ -7,35 +7,39 @@
 //
 
 import UIKit
+import SwiftUI
 
 class TestView: UIView {
-
+    
     var viewData: ViewData = .initial {
         didSet {
             setNeedsLayout()
         }
     }
     
-    
-    lazy var imageView = makeImageView()
     lazy var activityIndicator = makeActivityIndicatorView()
+    lazy var imageView = makeImageView()
     lazy var cityLabel = makeCityLabel()
     lazy var temperatureLabel = makeTemperatureLabel()
+    lazy var descriptionLabel = makeDescriptionLabel()
     
     override func layoutSubviews() {
         super.layoutSubviews()
         switch viewData {
         case .initial:
+            print("IsInitial")
             update(viewData: nil, isHiden: true)
             activityIndicator.isHidden = true
             activityIndicator.stopAnimating()
             break
         case .loading(let loading):
+            print("loading")
             update(viewData: loading, isHiden: false)
             activityIndicator.isHidden = false
             activityIndicator.stopAnimating()
             break
         case .success(let success):
+            print("success")
             update(viewData: success, isHiden: false)
             activityIndicator.isHidden = true
             activityIndicator.stopAnimating()
@@ -53,8 +57,12 @@ class TestView: UIView {
         imageView.image = viewData?.weatherImage
         cityLabel.text = viewData?.city
         temperatureLabel.text = viewData?.temperature
+        descriptionLabel.text = viewData?.weatherDescription
         cityLabel.isHidden = isHidden
         imageView.isHidden = isHidden
         temperatureLabel.isHidden = isHidden
+        descriptionLabel.isHidden = isHidden
     }
+    
+    
 }

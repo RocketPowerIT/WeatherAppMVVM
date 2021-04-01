@@ -12,19 +12,22 @@ class ViewController: UIViewController {
 
     private var viewModel: MainViewModelProtocol!
     private var testView: TestView!
-    
-    let url = "https://api.openweathermap.org/data/2.5/weather?id=498525&lang=ru&units=metric&appid=d3b55b309878cef225f742270a74bcce"
-    
+
+    let cityURL = "http://bulk.openweathermap.org/sample/city.list.json.gz"
     override func viewDidLoad() {
         viewModel = MainViewModel()
         super.viewDidLoad()
+ 
         createView()
         updateView()
+        
+        
+            //  fetchCity(URL(string: ""))
     }
     
     private func createView() {
         testView = TestView()
-        testView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        testView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         testView.center = view.center
         view.addSubview(testView)
     }
@@ -34,8 +37,8 @@ class ViewController: UIViewController {
             self?.testView.viewData = viewData
         }
     }
-    
-    @IBAction func getDataAction(_ sender: Any) {
+   
+    func getWeatherData(url:String){
         viewModel.startFetch(url: url)
     }
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct WeatherDataModel: Codable {
+struct WeatherModel: Codable {
      var coord: Coord!
      var weather: [Weather]!
      var main: Main!

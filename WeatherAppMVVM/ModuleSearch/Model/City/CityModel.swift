@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CityDataJson: Codable {
+struct CityModel: Codable {
         let administrativeArea: AdministrativeArea?
         let country: AdministrativeArea?
         let key: String?

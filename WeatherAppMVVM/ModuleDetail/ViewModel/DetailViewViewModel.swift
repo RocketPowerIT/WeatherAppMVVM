@@ -11,17 +11,16 @@ import Foundation
 struct DetailViewViewModel {
     
     let city: String
-    let id: Int
     let icon: String
-    let temp: Double
-    let feelsLike: Double
-
+    let temp: String
+    let feelsLike: String
+    let averTemp: String
     
-    init(_ mvvmModel: WeatherDataModel) {
-        city = mvvmModel.name
-        id = mvvmModel.id
-        icon = mvvmModel.weather[0].icon
-        temp = mvvmModel.main.temp
-        feelsLike = mvvmModel.main.feelsLike
-    }
+     init(from weatherModel: WeatherModel) {
+         city = weatherModel.name
+         icon = weatherModel.weather[0].icon
+         temp = String(Int(weatherModel.main.temp))
+         feelsLike = String(Int(weatherModel.main.feelsLike))
+         averTemp = "Мин: " + String(Int(weatherModel.main.tempMin)) + " Макс: " + String(Int(weatherModel.main.tempMax))
+     }
 }

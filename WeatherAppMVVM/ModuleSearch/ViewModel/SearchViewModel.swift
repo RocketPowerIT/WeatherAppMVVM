@@ -11,7 +11,7 @@ import Foundation
 struct SearchViewModel {
     let city: String
     
-    init(_ mvvmCityModel: CityDataJson) {
-        city = mvvmCityModel.localizedName!
+    init(_ cityModel: CityModel) {
+        city = cityModel.localizedName!
     }
 }

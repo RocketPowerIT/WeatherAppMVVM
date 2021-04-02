@@ -8,20 +8,19 @@
 
 import UIKit
 
-class MVVMTableViewController: UITableViewController {
+class MainCityTableViewController: UITableViewController {
     
-    var weatherData: [WeatherDataModel] = []
-    let defaultUrl = DefaultSettings().url
+    var weatherModel: [WeatherModel] = []
+    let networkService = NetworkService()
     var defSetting = DefaultSettings()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "WeatherMainScreen"
-        tableView.register(MVVMTableViewCell.self, forCellReuseIdentifier: MVVMTableViewCell.identifire)
+        tableView.register(MainCityTableViewCell.self, forCellReuseIdentifier: MainCityTableViewCell.identifire)
         fetchWeatherData()
-        tableView.reloadData()
         addBarButtonItem()
-        print(weatherData.count)
+        print(defSetting.url.count)
     }
     
     fileprivate func addBarButtonItem() {
@@ -36,22 +35,25 @@ class MVVMTableViewController: UITableViewController {
         navigationController? .pushViewController (nextViewController,
                                                    animated: false)
     }
-    
+
     fileprivate func fetchWeatherData() {
-        for url in defaultUrl {
-            let data = try! Data(contentsOf: URL(string: url)!)
-            Service.startFetch(of: WeatherDataModel.self, from: data) {
-                result in
+        for url in defSetting.url {
+            networkService.weatherFetch(url: url) { result in
                 switch result {
                 case .success(let data):
-                    self.weatherData.append(data)
+                    print(data)
+                    self.weatherModel.append(data)
+                    self.tableView.reloadData()
+
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
         }
     }
-    
+}
+
+extension MainCityTableViewController {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -61,13 +63,13 @@ class MVVMTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return weatherData.count
+        return weatherModel.count
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MVVMTableViewCell.identifire, for: indexPath) as! MVVMTableViewCell
-        cell.mvvmViewModel = MVVMViewModel(weatherData[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: MainCityTableViewCell.identifire, for: indexPath) as! MainCityTableViewCell
+        cell.cityViewModel = MainCityViewModel(from: weatherModel[indexPath.row])
         
         return cell
     }
@@ -78,7 +80,8 @@ class MVVMTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         let vc = DetailViewController()
-        vc.data = weatherData[indexPath.row]
+        let item = weatherModel[indexPath.row]
+        vc.detailViewViewModel = DetailViewViewModel(from: item)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

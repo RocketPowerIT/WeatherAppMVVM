@@ -11,7 +11,8 @@ import UIKit
 class SearchViewController: UITableViewController, UISearchBarDelegate {
     
     private let searchController = UISearchController(searchResultsController: nil)
-    private var сityModel = [CityDataJson]()
+    private var сityModel = [CityModel]()
+     var networking = NetworkService()
     
     fileprivate func initSearchBar() {
         navigationItem.searchController = searchController
@@ -26,17 +27,17 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     
     fileprivate func fetchCityList(searchCityName citySearch:String) {
         
-        guard let url = URL(string: "https://www.accuweather.com/web-api/autocomplete?query=\(citySearch)&language=en") else { return }
-        let data = try! Data(contentsOf: url)
-        Service.startFetch(of: [CityDataJson].self, from: data) {  result in
+        let url = "https://www.accuweather.com/web-api/autocomplete?query=\(citySearch)&language=en"
+        print(url)
+        networking.cityFetch(url: url) { result in
             switch result {
             case .success(let data):
-                for value in data {
-                    self.сityModel.append(value)
+                print(data)
+                data.forEach{ self.сityModel.append($0)
                 }
                 self.tableView.reloadData()
             case .failure(let error):
-                print(error.localizedDescription)
+                print(error)
             }
         }
     }
@@ -48,24 +49,30 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchViewCell.identifire, for: indexPath) as! SearchViewCell
         cell.mvvmViewModel = SearchViewModel(сityModel[indexPath.row])
-        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        let vc = DetailViewController()
         
-       
-        vc.city = сityModel[indexPath.row].localizedName!
-        
-        
-        navigationController?.pushViewController(vc, animated: true)
+        let cityString = сityModel[indexPath.row].localizedName!
+        let url = "https://api.openweathermap.org/data/2.5/weather?q=\(cityString)&lang=ru&units=metric&appid=d3b55b309878cef225f742270a74bcce"
+        networking.weatherFetch(url: url) { result in
+            switch result {
+            case .success(let data):
+                print(data)
+                let vc = DetailViewController()
+                vc.detailViewViewModel = DetailViewViewModel(from: data)
+                vc.cityId=data.name
+                self.navigationController?.pushViewController(vc, animated: true)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 
 extension SearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        
     }
     
     func searchBar(_ searcBar: UISearchBar, textDidChange searchText: String) {

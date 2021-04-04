@@ -6,4 +6,5 @@ SimpleWeatherApp with MVVM
 
 TODO: 
 1) add UserDefaults
-2) add image (UI)
+2) use DataDriven
+3) add image (UI)

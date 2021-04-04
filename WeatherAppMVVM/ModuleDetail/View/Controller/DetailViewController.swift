@@ -51,10 +51,8 @@ class DetailViewController: UIViewController {
     
     @objc func SelectorAdd(param: UIBarButtonItem){
         print("Add")
-        let mainViewController = MainCityTableViewController()
-        mainViewController.defSetting.addNewUrl(city: cityId)
-        navigationController? .pushViewController (mainViewController,
-                                                   animated: false)
+Singleton.shared.urlList.append("https://api.openweathermap.org/data/2.5/weather?q=\(cityId)&lang=ru&units=metric&appid=d3b55b309878cef225f742270a74bcce")
+        navigationController?.popToRootViewController(animated: true)
     }
     private func createView() {
         detailView = DetailView()
@@ -63,7 +61,4 @@ class DetailViewController: UIViewController {
         detailView.center = view.center
         view.addSubview(detailView)
     }
-    
-    
-    
 }

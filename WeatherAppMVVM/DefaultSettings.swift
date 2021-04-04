@@ -8,20 +8,18 @@
 
 import Foundation
 
-struct DefaultSettings {
+final class Singleton {
     
-    var url = [String]()
+    private init() { }
     
-    init() {
+    static let shared = Singleton()
+    
+    var urlList:[String] = {
+        var url = [String]()
         url.append("https://api.openweathermap.org/data/2.5/weather?id=498525&lang=ru&units=metric&appid=d3b55b309878cef225f742270a74bcce")
         url.append("https://api.openweathermap.org/data/2.5/weather?id=524901&lang=ru&units=metric&appid=d3b55b309878cef225f742270a74bcce")
         url.append("https://api.openweathermap.org/data/2.5/weather?id=498817&lang=ru&units=metric&appid=d3b55b309878cef225f742270a74bcce")
-    }
-    
-    mutating func addNewUrl(city:String){
-        self.url.append("https://api.openweathermap.org/data/2.5/weather?q=\(city)&lang=ru&units=metric&appid=d3b55b309878cef225f742270a74bcce")
-    }
-    
-    
-    
+        url.append("https://api.openweathermap.org/data/2.5/weather?q=Sarov&lang=ru&units=metric&appid=d3b55b309878cef225f742270a74bcce")
+        return url
+    }()
 }

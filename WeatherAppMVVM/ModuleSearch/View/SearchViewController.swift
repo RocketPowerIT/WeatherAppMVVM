@@ -52,6 +52,7 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
         return cell
     }
     
+
     override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         
         let cityString = сityModel[indexPath.row].localizedName!
@@ -59,10 +60,9 @@ class SearchViewController: UITableViewController, UISearchBarDelegate {
         networking.weatherFetch(url: url) { result in
             switch result {
             case .success(let data):
-                print(data)
                 let vc = DetailViewController()
                 vc.detailViewViewModel = DetailViewViewModel(from: data)
-                vc.cityId=data.name
+                vc.cityId=cityString
                 self.navigationController?.pushViewController(vc, animated: true)
             case .failure(let error):
                 print(error)

@@ -101,14 +101,13 @@
 				13C5444A261202EF0027E0A6 /* ModuleSearch */,
 				1332D9882609F8440097F7CA /* ModuleShortCityList */,
 				132342CB26024D6D00B0C063 /* ServicesTools */,
-				132342BF260239A500B0C063 /* TestModulePreloade */,
 				132342AB2602392D00B0C063 /* AppDelegate.swift */,
 				132342AD2602392D00B0C063 /* SceneDelegate.swift */,
-				132342B12602392D00B0C063 /* Main.storyboard */,
 				132342B42602392F00B0C063 /* Assets.xcassets */,
-				132342B62602392F00B0C063 /* LaunchScreen.storyboard */,
 				132342B92602392F00B0C063 /* Info.plist */,
 				13B17CD8260A72DA0034D45C /* DefaultSettings.swift */,
+				138C665F2619DDA6007DFC6C /* Storyboard */,
+				132342BF260239A500B0C063 /* TestModulePreloade */,
 			);
 			path = WeatherAppMVVM;
 			sourceTree = "<group>";
@@ -275,6 +274,15 @@
 				138706EA2614A7B100ADDF9C /* DetailViewViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		138C665F2619DDA6007DFC6C /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				132342B12602392D00B0C063 /* Main.storyboard */,
+				132342B62602392F00B0C063 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
 			sourceTree = "<group>";
 		};
 		13C5444A261202EF0027E0A6 /* ModuleSearch */ = {

@@ -12,15 +12,16 @@ class MainCityTableViewController: UITableViewController {
     
     var weatherModel: [WeatherModel] = []
     let networkService = NetworkService()
-    var defSetting = DefaultSettings()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "WeatherMainScreen"
         tableView.register(MainCityTableViewCell.self, forCellReuseIdentifier: MainCityTableViewCell.identifire)
-        fetchWeatherData()
         addBarButtonItem()
-        print(defSetting.url.count)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         fetchWeatherData()
     }
     
     fileprivate func addBarButtonItem() {
@@ -37,19 +38,21 @@ class MainCityTableViewController: UITableViewController {
     }
 
     fileprivate func fetchWeatherData() {
-        for url in defSetting.url {
-            networkService.weatherFetch(url: url) { result in
-                switch result {
-                case .success(let data):
-                    print(data)
-                    self.weatherModel.append(data)
-                    self.tableView.reloadData()
-
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-        }
+          weatherModel.removeAll()
+               Singleton.shared.urlList.forEach{
+                  print($0)
+                  networkService.weatherFetch(url: $0) { result in
+                      switch result {
+                      case .success(let data):
+                          print(data)
+                          self.weatherModel.append(data)
+                          self.tableView.reloadData()
+                         print("weatherCount + \(self.weatherModel.count)")
+                      case .failure(let error):
+                          print(error.localizedDescription)
+                      }
+                  }
+              }
     }
 }
 

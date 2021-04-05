@@ -6,5 +6,6 @@ SimpleWeatherApp with MVVM
 
 TODO: 
 1) use DataDriven, contoll state
-2) add sort
-3) add image (UI)
+2) use unit-test
+3) add sort
+4) add image (UI)

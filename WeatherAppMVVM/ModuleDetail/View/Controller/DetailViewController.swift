@@ -6,13 +6,14 @@
 //  Copyright © 2021 wolfyteze. All rights reserved.
 //
 
+import RealmSwift
 import UIKit
 
 class DetailViewController: UIViewController {
     var detailViewViewModel:DetailViewViewModel? // base single data from MainTableViewController
     private var detailView: DetailView!
     var cityId:String = ""
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if cityId.count>0 {
@@ -32,7 +33,7 @@ class DetailViewController: UIViewController {
     
     fileprivate func setConstraint(){
         let frameY = detailView.frame.height
-      //  let frameX = detailView.frame.width
+        //  let frameX = detailView.frame.width
         let paddingY = frameY/10
         
         detailView.cityLabel.topAnchor.constraint(equalTo: self.detailView.topAnchor,constant: frameY/8).isActive = true
@@ -51,7 +52,7 @@ class DetailViewController: UIViewController {
     
     @objc func SelectorAdd(param: UIBarButtonItem){
         print("Add")
-Singleton.shared.urlList.append("https://api.openweathermap.org/data/2.5/weather?q=\(cityId)&lang=ru&units=metric&appid=d3b55b309878cef225f742270a74bcce")
+        DBManager.shared.saveURL(save: "https://api.openweathermap.org/data/2.5/weather?q=\(cityId)&lang=ru&units=metric&appid=d3b55b309878cef225f742270a74bcce")
         navigationController?.popToRootViewController(animated: true)
     }
     private func createView() {

@@ -5,10 +5,11 @@
 //  Created by wolfyteze on 23/03/2021.
 //  Copyright © 2021 wolfyteze. All rights reserved.
 //
-
+import RealmSwift
 import UIKit
 
 class MainCityTableViewController: UITableViewController {
+    let realm = try! Realm()
     
     var weatherModel: [WeatherModel] = []
     let networkService = NetworkService()
@@ -18,8 +19,9 @@ class MainCityTableViewController: UITableViewController {
         title = "WeatherMainScreen"
         tableView.register(MainCityTableViewCell.self, forCellReuseIdentifier: MainCityTableViewCell.identifire)
         addBarButtonItem()
+        DBManager.shared.getUrl().forEach({print($0)})
     }
-    
+ 
     override func viewWillAppear(_ animated: Bool) {
          fetchWeatherData()
     }
@@ -39,7 +41,7 @@ class MainCityTableViewController: UITableViewController {
 
     fileprivate func fetchWeatherData() {
           weatherModel.removeAll()
-               Singleton.shared.urlList.forEach{
+        DBManager.shared.getUrl().forEach{
                   print($0)
                   networkService.weatherFetch(url: $0) { result in
                       switch result {
